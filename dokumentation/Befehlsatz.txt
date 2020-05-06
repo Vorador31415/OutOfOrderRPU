@@ -1,0 +1,118 @@
+77 Operations
+
+Format:
+   Opcode(7 Bit)
+   Opcode(7 Bit) Mod(2 Bit) reg\Adr\Imm(3-16bit)
+   Opcode(7 Bit) Mod(2 Bit) reg(3bit) reg\Adr\Imm(3-16bit)
+   
+   Mod		27  21 20 19 18 16
+	00,01	OOOOOOO MM    RRR
+			27  21 20 19 18             3
+	10		OOOOOOO MM 	AAAAAAAAAAAAAAAA
+	11		OOOOOOO MM 	IIIIIIIIIIIIIIII
+			27  21 20 19 18 16   15 13
+	00,01	OOOOOOO MM 	RRR     RRR
+			27  21 20 19 18 16   15             0
+	10		OOOOOOO MM 	RRR 	AAAAAAAAAAAAAAAA
+	11		OOOOOOO MM 	RRR 	IIIIIIIIIIIIIIII
+
+Mod:
+
+	1 Operand:
+		00	REG
+		01	[REG]
+		10	Adr
+		11  IMM
+	
+	2 Operanden:
+		00	REG
+		01	REG + [REG]
+		10	REG + Adr
+		11  REG + IMM
+
+
+REG:
+
+	000		RAX
+	001		RBX
+	010		RCX
+	011		RDX
+	100		REX
+	101		RFX -- Flagregister
+	110		RGX -- Stackpointer
+	111		RHX -- Befehlspointer
+
+
+Flag:
+
+	000		Zero
+	001		Parität
+	010		direction
+	011		carry
+	100		overflow
+	101		sign
+	110		interupt-enable
+
+
+opcode:
+
+	RET
+	NOP
+	CLI
+	SLI
+	TIME
+
+
+opcode Mod 1 Operand:
+
+	INT          IMM8
+	BSWAP        Mod=00            REG  000
+	DEC          Mod=00            REG  000
+	INC          Mod=00            REG  000
+	pop          Mod=00            REG  000
+	push	     Mod=00            REG  000
+	not          Mod=00            REG  000
+	cl		     Mod=00            Flag 000
+	set		     Mod=00            Flag 000
+	NEG          mod=00 		   REG  000 
+	call         Mod={00,01}	   REG
+	call         Mod={10,11}	   Adr\IMM16
+	jmp(all)     Mod={00,01}	   REG  
+	jmp(all)     Mod={10,11}       Adr\IMM16
+
+
+opcode Mod 2 Operanden:
+
+	add/sub								Mod=00			REG 	REG		
+	add/sub					 			Mod=01			REG 	IMM16
+	lea									Mod=00			REG		IMM16
+	cmp									Mod=00			REG		REG
+	cmp									Mod=11			REG		IMM16
+	in/out								Mod=11			REG		IMM16
+	test								Mod=00			REG		REG
+	mov									Mod=00			REG(D) 	REG(S)		-- copy Value from REG
+	mov									Mod=01			REG(D) 	Adr||IMM16  -- read  Value from Memory
+	mov									Mod=10			REG(S) 	Adr||IMM16  -- write Value to Memory
+	mov									Mod=11			REG(D) 	IMM16 		-- load Value	
+	xchg								Mod=00			REG		REG
+	rcl/sal/rcr/sar/rol/shl/ror/shr		Mod=11			REG		000		Imm4
+	and/or/xor							Mod=00			REG		REG
+	and/or/xor							Mod=01			REG		IMM16
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

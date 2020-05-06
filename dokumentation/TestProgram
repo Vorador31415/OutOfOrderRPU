@@ -1,0 +1,57 @@
+Benchmark
+
+Addieren
+Subtrahieren
+Multiplizieren (schriftlich mit Schieben und bedingtem Springen)
+Dividieren (Schriftlich mit Schieben und bedingtem Springen)
+
+String auslesen aus Speicherbereich
+String Vergleichen und bedingt Schpringen
+
+
+:EP						mov R1, 137 ; lade R1=137
+						mov R2, 95 ; Lade R2 = 95
+						push R1
+						add R1, R2 ; Addiere R1 = R1 + R2 = 137 + 95 = 232
+						mov R2, 56 ; R2 = 56
+						push R1
+						sub R1 R2 ; subtrahiere R1 = R1 - R2 = 232 - 56 = 176
+						pop R3
+						cmp R3 R1 ; 232 ?= 176
+						jne :Multiplizieren
+
+: Dividieren 			mov R1 65535
+						mov R2 7
+:schleifenanfang_div	sub R1 R2
+						cmp R1 0
+						jb :darunter
+						jg :darüber
+						jeq :equal
+:darunter				add R1 R2
+						mov R4 R1 ; Rest = R4
+						jmp :schleifenanfang_div
+:darüber 				inc R3
+						jmp :schleifenanfang_div
+:equal					mov R4 0 ; Rest = 0
+						push R3
+
+:Multiplizieren 		mov R1, 137
+						mov R2, 95
+						mov R3, R2
+:schleifenanfang_mul	add R1 R2
+						dec R2
+						cmp R2 R3
+						je :schleifenanfang_mul
+						push R1
+						jmp :Dividieren
+						
+: print
+
+getTime: 0x4D => 00000100 11010000 00000000 00000000 => 04D00000
+jmp adr: 0x19 & b'01 => 000000110010110011000000000000000000 => 32CC0000
+
+
+
+
+
+
