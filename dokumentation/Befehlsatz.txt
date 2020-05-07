@@ -77,14 +77,14 @@ opcode Mod 1 Operand:
 	NEG          mod=00		REG  000 
 	call         Mod={00,01}	REG
 	call         Mod={10,11}	Adr\IMM16
-	jmp(all)     Mod={00,01}	REG  
-	jmp(all)     Mod={10,11}	Adr\IMM16
 
 
 opcode Mod 2 Operanden:
 
 	add/sub					Mod=00			REG 	REG		
 	add/sub					Mod=01			REG 	IMM16
+	jmp(all)     				Mod={00,01}		REG		Flag
+	jmp(all)     				Mod={10,11}		Adr\IMM16	Flag
 	lea					Mod=00			REG	IMM16
 	cmp					Mod=00			REG	REG
 	cmp					Mod=11			REG	IMM16
